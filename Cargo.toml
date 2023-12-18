@@ -2,6 +2,13 @@
 name = "notch"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+description = "A compact and fast library for managing Minecraft servers."
+repository = "https://github.com/Azuyamat/Notch"
+readme = "README.md"
+keywords = ["minecraft", "server", "library", "notch"]
+categories = ["game-development"]
+authors = ["Azuyamat"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
