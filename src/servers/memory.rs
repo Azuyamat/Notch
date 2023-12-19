@@ -1,3 +1,6 @@
+use std::fmt::{Display, Formatter};
+
+/// Represents a memory flag for the JVM.
 pub enum Memory {
     Bytes(u64),
     KiloBytes(u64),
@@ -6,12 +9,18 @@ pub enum Memory {
 }
 
 impl Memory {
-    pub fn to_string(&self) -> String {
+    pub(crate) fn prepend_flag(&self, flag: &str) -> String {
+        format!("{}{}", flag, self)
+    }
+}
+
+impl Display for Memory {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Memory::Bytes(bytes) => format!("{}B", bytes),
-            Memory::KiloBytes(kb) => format!("{}KB", kb),
-            Memory::MegaBytes(mb) => format!("{}MB", mb),
-            Memory::GigaBytes(gb) => format!("{}GB", gb),
+            Memory::Bytes(bytes) => write!(f, "{bytes}B"),
+            Memory::KiloBytes(kilobytes) => write!(f, "{kilobytes}K"),
+            Memory::MegaBytes(megabytes) => write!(f, "{megabytes}M"),
+            Memory::GigaBytes(gigabytes) => write!(f, "{gigabytes}G"),
         }
     }
 }
