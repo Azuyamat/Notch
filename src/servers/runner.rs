@@ -37,7 +37,7 @@ impl<'a> Runner<'a> {
             .arg("-jar")
             .arg(&server.get_jar_path()?)
             .args(&self.server_args)
-            .stdout(Stdio::null());
+            .stdout(Stdio::inherit());
         command.spawn().map_err(Error::from)
     }
 }

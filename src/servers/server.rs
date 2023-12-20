@@ -64,10 +64,10 @@ impl Server {
     }
 
     /// Read from notch.toml
-    pub fn from_path(path: PathBuf) -> Result<Self, Error> {
+    pub fn from_path(path: &PathBuf) -> Result<Self, Error> {
         let config_path = path.join("notch.toml");
         if !config_path.exists() {
-            return Err(Error::ServerConfigNotFound(path));
+            return Err(Error::ServerConfigNotFound(path.clone()));
         }
         let config = fs::read_to_string(config_path)?;
         let server: Server = toml::from_str(&config)?;
