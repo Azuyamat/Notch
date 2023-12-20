@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use crate::error::Error;
 use crate::jars::request::{JarBuildsPaper, JarBuildsPurpur, JarVersions};
 
@@ -52,6 +52,7 @@ impl JarDetails {
 }
 
 /// Jar is a struct that contains the name, version, and build of a jar.
+#[derive(Deserialize, Serialize)]
 pub struct Jar {
     pub name: String,
     pub version: Option<String>,

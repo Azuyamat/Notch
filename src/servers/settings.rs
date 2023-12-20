@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
 use crate::servers::memory::Memory;
 
 /// Represents the settings of a server
+#[derive(Deserialize, Serialize)]
 pub struct ServerSettings {
     pub gui: bool,
     pub initial_memory: Memory,

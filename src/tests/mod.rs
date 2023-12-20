@@ -44,6 +44,7 @@ fn server_can_start() {
         path.to_path_buf(),
     ).unwrap();
     server.settings.gui = false;
+    server.save().unwrap();
 
     let downloader = Downloader::new(&server);
     let result = downloader.download();

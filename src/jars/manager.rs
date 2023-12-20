@@ -14,4 +14,9 @@ impl JarManager {
     pub fn load() -> Result<Self, Error> {
         Ok(toml::from_str(JARS_TOML)?)
     }
+
+    pub fn get_jar(&self, name: String) -> Result<&JarDetails, Error> {
+        let jar = self.jars.iter().find(|jar| jar.name.eq_ignore_ascii_case(&name));
+        jar.ok_or(Error::JarNotFound)
+    }
 }
