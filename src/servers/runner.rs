@@ -4,10 +4,10 @@ use crate::servers::server::Server;
 
 /// A struct that represents a server runner.
 pub struct Runner<'a> {
-    server: &'a Server,
-    java_args: Vec<&'a str>,
-    server_args: Vec<&'a str>,
-    child: Option<Child>,
+    pub server: &'a Server,
+    pub java_args: Vec<&'a str>,
+    pub server_args: Vec<&'a str>,
+    pub child: Option<Child>,
 }
 
 impl<'a> Runner<'a> {

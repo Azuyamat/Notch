@@ -1,3 +1,3 @@
 pub mod manager;
 pub mod jar;
-mod request;
+pub mod request;
