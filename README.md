@@ -1,4 +1,4 @@
-# 🪵 Notch [![Crates.io](https://img.shields.io/crates/v/notch.svg)](https://crates.io/crates/notch) [![Rust](https://github.com/Azuyamat/Notch/actions/workflows/rust.yml/badge.svg)](https://github.com/Azuyamat/Notch/actions/workflows/rust.yml)
+# 🪵 Notch [![Crates.io](https://img.shields.io/crates/v/notch.svg)](https://crates.io/crates/notch)
 
 > This library is based off and made for [Boxes](https://github.com/Azuyamat/boxes)
 
