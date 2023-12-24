@@ -47,18 +47,18 @@ impl<'a> Manipulator<'a> {
         let downloads = &plugin.first().ok_or(Error::PluginNotFound)?.downloads;
         // Set download_url to either velocity, waterfall, or paper depending on which matches the server's jar name
         let jar_name = self.server.jar.name.to_lowercase();
-        let download_url = match jar_name.as_str() {
+        let download = match jar_name.as_str() {
             "velocity" => downloads.velocity.as_ref(),
             "waterfall" => downloads.waterfall.as_ref(),
             "paper" => downloads.paper.as_ref(),
             _ => None
-        };
-        if download_url.is_none() {
-            return Err(Error::PluginNotFound);
-        }
+        }.ok_or(Error::DownloadUrlNotFound)?;
         // Set download_url to either externalUrl or downloadUrl depending on which is not None
-        let download_url = download_url.unwrap();
-        let download_url: &String = download_url.download_url.as_ref().ok_or(Error::DownloadUrlNotFound)?;
+        let mut download_url: Option<&String> = download.download_url.as_ref();
+        if download_url.is_none() {
+            download_url = download.external_url.as_ref();
+        }
+        let download_url = download_url.ok_or(Error::DownloadUrlNotFound)?;
         let response = reqwest::blocking::get(download_url)?;
         // Make sure response is of type Jar
         if let Some(content_type) = response.headers().get("content-type") {
