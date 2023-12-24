@@ -26,4 +26,12 @@ pub enum Error {
     NoJarFound,
     #[error("Failed to find server config")]
     ServerConfigNotFound(PathBuf),
+    #[error("Failed to find plugin")]
+    PluginNotFound,
+    #[error("Failed to find plugin download (not on GitHub)")]
+    DownloadUrlNotGithub,
+    #[error("Failed to find plugin download")]
+    DownloadUrlNotFound,
+    #[error("Failed to find plugin download (not a jar)")]
+    DownloadUrlNotJar,
 }

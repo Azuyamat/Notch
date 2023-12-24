@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::servers::memory::Memory;
+use serde::{Deserialize, Serialize};
 
 /// Represents the settings of a server
 #[derive(Deserialize, Serialize)]

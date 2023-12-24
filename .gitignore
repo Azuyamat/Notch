@@ -2,3 +2,4 @@
 .idea/
 .vs/
 servers/
+src/main.rs

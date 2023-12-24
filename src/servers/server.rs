@@ -1,9 +1,9 @@
-use std::fs;
-use std::path::PathBuf;
-use serde::{Deserialize, Serialize};
+use crate::error::Error;
 use crate::jars::jar::Jar;
 use crate::servers::settings::ServerSettings;
-use crate::error::Error;
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::{Path, PathBuf};
 
 /// Represents a server
 #[derive(Deserialize, Serialize)]
@@ -30,6 +30,7 @@ impl Server {
         })
     }
 
+    /// Get the server's jar path
     pub fn get_jar_path(&self) -> Result<PathBuf, Error> {
         let directory = &self.location;
         let jars = std::fs::read_dir(directory)?;
@@ -44,6 +45,7 @@ impl Server {
         Ok(jar.path())
     }
 
+    /// Accept the server's EULA (End User License Agreement)
     pub fn accept_eula(&self) -> Result<(), Error> {
         let eula_path = self.location.join("eula.txt");
         fs::write(eula_path, "eula=true")?;
@@ -58,20 +60,20 @@ impl Server {
         Ok(())
     }
 
+    /// Delete the server
     pub fn delete(&self) -> Result<(), Error> {
         fs::remove_dir_all(&self.location)?;
         Ok(())
     }
 
     /// Read from notch.toml
-    pub fn from_path(path: &PathBuf) -> Result<Self, Error> {
+    pub fn from_path(path: &Path) -> Result<Self, Error> {
         let config_path = path.join("notch.toml");
         if !config_path.exists() {
-            return Err(Error::ServerConfigNotFound(path.clone()));
+            return Err(Error::ServerConfigNotFound(path.to_path_buf()));
         }
         let config = fs::read_to_string(config_path)?;
         let server: Server = toml::from_str(&config)?;
         Ok(server)
     }
 }
-

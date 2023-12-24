@@ -9,6 +9,7 @@ readme = "README.md"
 keywords = ["minecraft", "server", "library", "notch"]
 categories = ["game-development"]
 authors = ["Azuyamat"]
+exclude = ["src/main.rs"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

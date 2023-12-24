@@ -1,11 +1,11 @@
-use std::path::Path;
-use std::thread;
-use std::time::Duration;
+use std::io::{BufRead, BufReader};
 use crate::jars::jar::Jar;
 use crate::jars::manager::JarManager;
-use crate::servers::server::Server;
 use crate::servers::downloader::Downloader;
+use crate::servers::manipulator::Manipulator;
 use crate::servers::runner::Runner;
+use crate::servers::server::Server;
+use std::path::Path;
 
 #[test]
 fn load_jars_includes_all_jars() {
@@ -21,11 +21,7 @@ fn wrong_path_should_return_error() {
         build: None,
     };
     let path = Path::new("wrong_path");
-    let server = Server::new(
-        "Test Server".to_string(),
-        jar,
-        path.to_path_buf(),
-    );
+    let server = Server::new("Test Server".to_string(), jar, path.to_path_buf());
     assert!(server.is_err());
 }
 
@@ -38,11 +34,7 @@ fn server_can_start() {
     let current_dir = std::env::current_dir().unwrap();
     let path = current_dir.join("servers").join("test_server");
 
-    let mut server = Server::new(
-        "Test Server".to_string(),
-        jar,
-        path.to_path_buf(),
-    ).unwrap();
+    let mut server = Server::new("Test Server".to_string(), jar, path.to_path_buf()).unwrap();
     server.settings.gui = false;
     server.save().unwrap();
 
@@ -57,7 +49,31 @@ fn server_can_start() {
     assert!(result.is_ok());
 
     let mut child = result.unwrap();
-    thread::sleep(Duration::from_secs(5));
+    if let Some(ref mut stdout) = child.stdout {
+        let reader = BufReader::new(stdout);
+        for line in reader.lines() {
+            let text = line.unwrap_or_default()
+                .escape_default()
+                .to_string();
+            println!("{}", text);
+            if text.contains("Done") {
+                break;
+            }
+        }
+    }
     let result = child.kill();
     assert!(result.is_ok());
+
+    let manipulator = Manipulator::new(&server);
+    let plugins = manipulator.plugins();
+    assert!(plugins.is_ok());
+    println!("{:?}", plugins.unwrap());
+
+    println!("Jar name: {}", server.jar.name);
+
+    manipulator.download_plugin("ViaVersion", "ViaVersion").unwrap();
+
+    let plugins = manipulator.plugins();
+    assert!(plugins.is_ok());
+    println!("{:?}", plugins.unwrap());
 }

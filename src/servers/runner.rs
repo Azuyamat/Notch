@@ -1,6 +1,6 @@
-use std::process::{Child, Stdio};
 use crate::error::Error;
 use crate::servers::server::Server;
+use std::process::{Child, Stdio};
 
 /// A struct that represents a server runner.
 pub struct Runner<'a> {
@@ -41,4 +41,3 @@ impl<'a> Runner<'a> {
         command.spawn().map_err(Error::from)
     }
 }
-

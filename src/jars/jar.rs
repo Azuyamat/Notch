@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::error::Error;
 use crate::jars::request::{JarBuildsPaper, JarBuildsPurpur, JarVersions};
+use serde::{Deserialize, Serialize};
 
 /// JarDetails is a struct that contains the details of a jar. It is used to get the latest version and build of a jar.
 #[derive(Deserialize)]
@@ -26,9 +26,14 @@ impl JarDetails {
         let builds: Vec<u32> = match &self.name.to_lowercase().as_str() {
             &"purpur" => {
                 let response: JarBuildsPurpur = reqwest::blocking::get(url)?.json()?;
-                let builds = response.builds.all.iter().map(|s| s.parse::<u32>().unwrap()).collect();
+                let builds = response
+                    .builds
+                    .all
+                    .iter()
+                    .map(|s| s.parse::<u32>().unwrap())
+                    .collect();
                 builds
-            },
+            }
             _ => {
                 let response: JarBuildsPaper = reqwest::blocking::get(url)?.json()?;
                 response.builds

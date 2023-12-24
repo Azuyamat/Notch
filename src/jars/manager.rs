@@ -1,6 +1,6 @@
+use crate::error::Error;
 use crate::jars::jar::JarDetails;
 use serde::Deserialize;
-use crate::error::Error;
 
 const JARS_TOML: &str = include_str!("../../jars.toml");
 
@@ -16,7 +16,10 @@ impl JarManager {
     }
 
     pub fn get_jar(&self, name: String) -> Result<&JarDetails, Error> {
-        let jar = self.jars.iter().find(|jar| jar.name.eq_ignore_ascii_case(&name));
+        let jar = self
+            .jars
+            .iter()
+            .find(|jar| jar.name.eq_ignore_ascii_case(&name));
         jar.ok_or(Error::JarNotFound)
     }
 }

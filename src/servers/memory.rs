@@ -1,5 +1,5 @@
-use std::fmt::{Display, Formatter};
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 
 /// Represents a memory flag for the JVM.
 #[derive(Deserialize, Serialize)]
