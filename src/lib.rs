@@ -3,7 +3,7 @@
 pub mod error;
 pub mod jars;
 pub mod servers;
-mod hangar;
+pub mod hangar;
 
 #[cfg(test)]
 mod tests;
