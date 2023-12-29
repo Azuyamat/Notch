@@ -10,8 +10,4 @@
 ## Description
 
 Rust library for creating, running and managing Minecraft servers.
-
-## Warning
-
-⚠️ This library is still in development and is not ready for production use.
-
+Wiki will be made soon.
